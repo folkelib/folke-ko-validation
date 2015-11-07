@@ -20,47 +20,6 @@ define(["require", "exports", "knockout"], function (require, exports, ko) {
         maxValue: "At most {0}",
         areSame: "The two fields must be identical"
     };
-    /** Utility function that converts a string to a date and checks that the value is different
-     * @param {Date} value The current value
-     * @param {string} original The original value, that is converted to a Date
-     */
-    function hasDateChanged(value, original) {
-        if (value == null)
-            return original != null;
-        if (original == null)
-            return true;
-        return value.getTime() != new Date(original).getTime();
-    }
-    exports.hasDateChanged = hasDateChanged;
-    /** Utility function that checks that an object has changed or that the object was originaly null but is not anymore, or that the
-     * object is not null but originaly was null.
-     */
-    function hasObjectChanged(value, original) {
-        if (value == null)
-            return original != null;
-        if (original == null)
-            return true;
-        return value.changed();
-    }
-    exports.hasObjectChanged = hasObjectChanged;
-    /** Checks if an array of Changeable has changed */
-    function hasArrayOfObjectsChanged(value, original) {
-        if (value == null)
-            return original != null;
-        if (original == null)
-            return true;
-        return value().length != original.length || value().some(function (v) { return v.changed(); });
-    }
-    exports.hasArrayOfObjectsChanged = hasArrayOfObjectsChanged;
-    /** Checks if an array of values has changed */
-    function hasArrayChanged(value, original) {
-        if (value == null)
-            return original != null;
-        if (original == null)
-            return true;
-        return value().length != original.length || value().some(function (v, i) { return v != original[i]; });
-    }
-    exports.hasArrayChanged = hasArrayChanged;
     /** Create a ValidableObservable */
     function validableObservable() {
         var observable = ko.observable();
