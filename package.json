@@ -1,0 +1,17 @@
+{
+  "name": "folke-ko-validation",
+  "version": "1.0.0",
+  "description": "Add validation to Knockout observables",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "knockout"
+  ],
+  "author": "Sidoine De Wispelaere",
+  "license": "ISC",
+  "devDependencies": {
+    "dts-bundle": "^0.3.0"
+  }
+}

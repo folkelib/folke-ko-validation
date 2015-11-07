@@ -1,0 +1,30 @@
+{
+  "name": "folke-ko-validation",
+  "description": "Add validation to Knockout observables",
+  "main": "build/folke-ko-validation.js",
+  "typescript":{
+    "definition": "build/folke-ko-validation.d.ts"
+  },
+  "authors": [
+    "Sidoine De Wispelaere"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "knockout"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "es6-promise": "*",
+    "knockout": "*"
+  }
+}
