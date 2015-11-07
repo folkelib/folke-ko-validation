@@ -4,7 +4,8 @@
   "description": "Add validation to Knockout observables",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc folke-ko-validation.ts typings/tsd.d.ts --module amd"
   },
   "keywords": [
     "knockout"
@@ -12,6 +13,9 @@
   "author": "Sidoine De Wispelaere",
   "license": "ISC",
   "devDependencies": {
-    "dts-bundle": "^0.3.0"
+    "typescript": "^1.6.2"
+  },
+  "repository": {
+    "url": "git@github.com:folkelib/folke-ko-validation.git"
   }
 }

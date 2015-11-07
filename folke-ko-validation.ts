@@ -23,53 +23,6 @@ export var errorMessages = {
     areSame: "The two fields must be identical"
 };
 
-/** An object whose value may have changed since an initial value */
-export interface Changeable {
-    /** Whether the object value changed or not */
-    changed: KnockoutComputed<boolean>
-}
-
-/** Utility function that converts a string to a date and checks that the value is different
- * @param {Date} value The current value
- * @param {string} original The original value, that is converted to a Date
- */
-export function hasDateChanged(value: Date, original: string) {
-    if (value == null)
-        return original != null;
-    if (original == null)
-        return true;
-    return value.getTime() != new Date(original).getTime();
-}
-
-/** Utility function that checks that an object has changed or that the object was originaly null but is not anymore, or that the
- * object is not null but originaly was null.
- */
-export function hasObjectChanged<T extends Changeable, V>(value: T, original: V) {
-    if (value == null)
-        return original != null;
-    if (original == null)
-        return true;
-    return value.changed();
-}
-
-/** Checks if an array of Changeable has changed */
-export function hasArrayOfObjectsChanged<T extends Changeable,V>(value: KnockoutObservableArray<T>, original: V[]) {
-    if (value == null)
-        return original != null;
-    if (original == null)
-        return true;
-    return value().length != original.length || value().some(v => v.changed());
-}
-
-/** Checks if an array of values has changed */
-export function hasArrayChanged<T>(value: KnockoutObservableArray<T>, original: T[]) {
-    if (value == null)
-        return original != null;
-    if (original == null)
-        return true;
-    return value().length != original.length || value().some((v, i) => v != original[i]);
-}
-
 /** A validator. */
 export interface Validator {
     /** The error message. If null, there is no error. */
