@@ -118,4 +118,28 @@ define(["require", "exports", "knockout"], function (require, exports, ko) {
     function format(f, a) {
         return f.replace("{0}", a);
     }
+    /* Register a new Knockout binding handler that adds an error message of class "error" after an input */
+    exports.validateHandler = {
+        init: function (element, valueAccessor) {
+            var label = document.createElement('label');
+            label.style.display = 'none';
+            label.className = 'error';
+            element.parentElement.insertBefore(label, element.nextSibling);
+            $(element).after(label);
+            var observable = valueAccessor();
+            if (!observable.errorMessage)
+                return;
+            var handle = observable.errorMessage.subscribe(function (newValue) {
+                if (newValue) {
+                    label.style.display = 'block';
+                    label.innerHTML = newValue;
+                }
+                else {
+                    label.style.display = 'none';
+                }
+            });
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () { return handle.dispose(); });
+        }
+    };
+    ko.bindingHandlers['validate'] = exports.validateHandler;
 });

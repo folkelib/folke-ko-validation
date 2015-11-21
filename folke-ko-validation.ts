@@ -141,3 +141,28 @@ export function areSame(other: KnockoutObservable<string>) {
 function format(f:string, a:any){
     return f.replace("{0}", a);
 }
+
+/* Register a new Knockout binding handler that adds an error message of class "error" after an input */
+export var validateHandler: KnockoutBindingHandler = {
+    init: function (element: HTMLElement, valueAccessor: () => ValidableObservable<any>) {
+        var label = document.createElement('label');
+        label.style.display = 'none';
+        label.className = 'error';
+        element.parentElement.insertBefore(label, element.nextSibling);
+        $(element).after(label);
+        var observable = valueAccessor();
+        if (!observable.errorMessage) return;
+        var handle = observable.errorMessage.subscribe(newValue => {
+            if (newValue) {
+                label.style.display = 'block';
+                label.innerHTML = newValue;
+            }
+            else {
+                label.style.display = 'none';
+            }
+        });
+        ko.utils.domNodeDisposal.addDisposeCallback(element, () => handle.dispose());
+    }
+};
+
+ko.bindingHandlers['validate'] = validateHandler;
