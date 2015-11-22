@@ -149,7 +149,6 @@ export var validateHandler: KnockoutBindingHandler = {
         label.style.display = 'none';
         label.className = 'error';
         element.parentElement.insertBefore(label, element.nextSibling);
-        $(element).after(label);
         var observable = valueAccessor();
         if (!observable.errorMessage) return;
         var handle = observable.errorMessage.subscribe(newValue => {
