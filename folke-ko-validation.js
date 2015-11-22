@@ -125,7 +125,6 @@ define(["require", "exports", "knockout"], function (require, exports, ko) {
             label.style.display = 'none';
             label.className = 'error';
             element.parentElement.insertBefore(label, element.nextSibling);
-            $(element).after(label);
             var observable = valueAccessor();
             if (!observable.errorMessage)
                 return;
