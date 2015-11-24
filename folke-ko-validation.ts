@@ -18,6 +18,7 @@ export var errorMessages = {
     email: "Wrong e-mail format",
     required: "Required field",
     minLength: "At least {0} characters long",
+    maxLength: "At most {0} characters long",
     minValue: "At least {0}",
     maxValue: "At most {0}",
     areSame: "The two fields must be identical"
@@ -96,6 +97,15 @@ export function hasMinLength(minLength: number) {
     return (value: KnockoutObservable<string>) => { return {
         errorMessage: ko.computed(() => !value() || value().length < minLength ? format(errorMessages.minLength, minLength) : null)
     }};
+}
+
+/** Creates a validator factory that checks that a string has a maximum length */
+export function hasMaxLength(maxLength: number) {
+    return (value: KnockoutObservable<string>) => {
+        return {
+            errorMessage: ko.computed(() => !value() || value().length > maxLength ? format(errorMessages.maxLength, maxLength) : null)
+        }
+    };
 }
 
 /** Creates a validator factory that checks that a number has a value between two limits */

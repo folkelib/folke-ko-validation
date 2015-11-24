@@ -16,6 +16,7 @@ define(["require", "exports", "knockout"], function (require, exports, ko) {
         email: "Wrong e-mail format",
         required: "Required field",
         minLength: "At least {0} characters long",
+        maxLength: "At most {0} characters long",
         minValue: "At least {0}",
         maxValue: "At most {0}",
         areSame: "The two fields must be identical"
@@ -76,6 +77,15 @@ define(["require", "exports", "knockout"], function (require, exports, ko) {
         };
     }
     exports.hasMinLength = hasMinLength;
+    /** Creates a validator factory that checks that a string has a maximum length */
+    function hasMaxLength(maxLength) {
+        return function (value) {
+            return {
+                errorMessage: ko.computed(function () { return !value() || value().length > maxLength ? format(exports.errorMessages.maxLength, maxLength) : null; })
+            };
+        };
+    }
+    exports.hasMaxLength = hasMaxLength;
     /** Creates a validator factory that checks that a number has a value between two limits */
     function isInRange(min, max) {
         return function (value) {
