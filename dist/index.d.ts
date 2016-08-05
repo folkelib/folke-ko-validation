@@ -1,5 +1,4 @@
 import * as ko from "knockout";
-import * as promise from 'es6-promise';
 export declare var errorMessages: {
     email: string;
     required: string;
@@ -47,7 +46,7 @@ export declare function isInRange(min: number, max: number): (value: ko.Observab
 /** Creates a validator factory that calls a service to check if a value is valid */
 export declare function validateService(service: (parameters: {
     value: string;
-}) => promise.Promise<string>): (value: ko.Observable<string>) => {
+}) => Promise<string>): (value: ko.Observable<string>) => {
     errorMessage: ko.Observable<string>;
     validating: ko.Observable<boolean>;
 };

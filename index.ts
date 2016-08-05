@@ -13,7 +13,6 @@ OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.*/
 
 import * as ko from "knockout";
-import * as promise from 'es6-promise';
 
 export var errorMessages = {
     email: "Wrong e-mail format",
@@ -119,7 +118,7 @@ export function isInRange(min: number, max:number) {
 }
 
 /** Creates a validator factory that calls a service to check if a value is valid */
-export function validateService(service: (parameters: { value: string }) => promise.Promise<string>) {
+export function validateService(service: (parameters: { value: string }) => Promise<string>) {
     return (value: ko.Observable<string>) => {
         var errorMessage = ko.observable<string>(null);
         var validating = ko.observable(false);
