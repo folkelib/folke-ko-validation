@@ -86,7 +86,7 @@ export function isEmail(value: ko.Observable<string>):Validator {
 }
 
 /** A validator factory that checks that the value is not null or empty */
-export function isRequired(value: ko.Observable<string|number>):Validator{
+export function isRequired(value: ko.Observable<string|number|boolean>):Validator{
     return {
         errorMessage: ko.computed(() => value() == null || value() == "" ? errorMessages.required : null)
         };
@@ -113,6 +113,22 @@ export function isInRange(min: number, max:number) {
     return (value: ko.Observable<number>) => {
         return {
             errorMessage: ko.computed(() => !value() || value() < min ? format(errorMessages.minValue, min) : (value() > max ? format(errorMessages.maxValue, max) : null))
+        }
+    };
+}
+
+export function isAtLeast(min: number){
+    return (value: ko.Observable<number>) => {
+        return {
+            errorMessage: ko.computed(() => !value() || value() < min ? format(errorMessages.minValue, min) : null)
+        }
+    };
+}
+
+export function isAtMost(max: number){
+    return (value: ko.Observable<number>) => {
+        return {
+            errorMessage: ko.computed(() => !value() || value() > max ? format(errorMessages.maxValue, max) : null)
         }
     };
 }

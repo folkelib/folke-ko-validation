@@ -30,7 +30,7 @@ export declare function validableObservable<T>(): ValidableObservable<T>;
 /** A validator factory that checks that the value has the format of an e-mail  */
 export declare function isEmail(value: ko.Observable<string>): Validator;
 /** A validator factory that checks that the value is not null or empty */
-export declare function isRequired(value: ko.Observable<string | number>): Validator;
+export declare function isRequired(value: ko.Observable<string | number | boolean>): Validator;
 /** Creates a validator factory that checks that a string has a minimum length */
 export declare function hasMinLength(minLength: number): (value: ko.Observable<string>) => {
     errorMessage: ko.Computed<string>;
@@ -41,6 +41,12 @@ export declare function hasMaxLength(maxLength: number): (value: ko.Observable<s
 };
 /** Creates a validator factory that checks that a number has a value between two limits */
 export declare function isInRange(min: number, max: number): (value: ko.Observable<number>) => {
+    errorMessage: ko.Computed<string>;
+};
+export declare function isAtLeast(min: number): (value: ko.Observable<number>) => {
+    errorMessage: ko.Computed<string>;
+};
+export declare function isAtMost(max: number): (value: ko.Observable<number>) => {
     errorMessage: ko.Computed<string>;
 };
 /** Creates a validator factory that calls a service to check if a value is valid */

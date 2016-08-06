@@ -96,6 +96,22 @@ function isInRange(min, max) {
     };
 }
 exports.isInRange = isInRange;
+function isAtLeast(min) {
+    return function (value) {
+        return {
+            errorMessage: ko.computed(function () { return !value() || value() < min ? format(exports.errorMessages.minValue, min) : null; })
+        };
+    };
+}
+exports.isAtLeast = isAtLeast;
+function isAtMost(max) {
+    return function (value) {
+        return {
+            errorMessage: ko.computed(function () { return !value() || value() > max ? format(exports.errorMessages.maxValue, max) : null; })
+        };
+    };
+}
+exports.isAtMost = isAtMost;
 /** Creates a validator factory that calls a service to check if a value is valid */
 function validateService(service) {
     return function (value) {
