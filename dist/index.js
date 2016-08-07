@@ -65,7 +65,7 @@ exports.isEmail = isEmail;
 /** A validator factory that checks that the value is not null or empty */
 function isRequired(value) {
     return {
-        errorMessage: ko.computed(function () { return value() == null || value() == "" ? exports.errorMessages.required : null; })
+        errorMessage: ko.computed(function () { return value() == null || value() === "" ? exports.errorMessages.required : null; })
     };
 }
 exports.isRequired = isRequired;

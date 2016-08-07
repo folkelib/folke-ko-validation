@@ -30,7 +30,7 @@ export declare function validableObservable<T>(): ValidableObservable<T>;
 /** A validator factory that checks that the value has the format of an e-mail  */
 export declare function isEmail(value: ko.Observable<string>): Validator;
 /** A validator factory that checks that the value is not null or empty */
-export declare function isRequired(value: ko.Observable<string | number | boolean>): Validator;
+export declare function isRequired(value: ko.Observable<any>): Validator;
 /** Creates a validator factory that checks that a string has a minimum length */
 export declare function hasMinLength(minLength: number): (value: ko.Observable<string>) => {
     errorMessage: ko.Computed<string>;

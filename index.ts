@@ -86,10 +86,10 @@ export function isEmail(value: ko.Observable<string>):Validator {
 }
 
 /** A validator factory that checks that the value is not null or empty */
-export function isRequired(value: ko.Observable<string|number|boolean>):Validator{
+export function isRequired(value: ko.Observable<any>):Validator{
     return {
-        errorMessage: ko.computed(() => value() == null || value() == "" ? errorMessages.required : null)
-        };
+        errorMessage: ko.computed(() => value() == null || value() === "" ? errorMessages.required : null)
+    };
 }
 
 /** Creates a validator factory that checks that a string has a minimum length */
