@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "typings install && tsc -p ."
+    "prepublish": "tsc -p ."
   },
   "keywords": [
     "knockout"
@@ -14,11 +14,10 @@
   "author": "Sidoine De Wispelaere",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^1.8.10",
-    "typings": "^1.3.2"
+    "typescript": "~2.1"
   },
   "dependencies": {
-    "es6-promise": "^3.2.1",
+    "@types/knockout": "^3.4.38",
     "knockout": "^3.4.0"
   },
   "repository": {

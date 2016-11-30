@@ -39,7 +39,8 @@ function validableObservable() {
     var validating = ko.computed(function () {
         var v = validators();
         for (var i = 0; i < v.length; i++) {
-            if (v[i].validating && v[i].validating()) {
+            var validating_1 = v[i].validating;
+            if (validating_1 && validating_1()) {
                 return true;
             }
         }

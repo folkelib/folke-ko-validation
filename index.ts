@@ -27,18 +27,18 @@ export var errorMessages = {
 /** A validator. */
 export interface Validator {
     /** The error message. If null, there is no error. */
-    errorMessage: ko.Computed<string>
+    errorMessage: KnockoutComputed<string | null>
     /** (optional) true while the validator is not ready (e.g. asynchronous call).
      * You should listen to this observable before reading errorMessage */
-    validating?: ko.Computed<boolean>
+    validating?: KnockoutComputed<boolean>
 }
 
 /** An extension to ko.Observable to add validators */
-export interface ValidableObservable<T> extends ko.Observable<T> {
+export interface ValidableObservable<T> extends KnockoutObservable<T> {
     /** If there is an error it is not null */
-    errorMessage: ko.Computed<string>;
+    errorMessage: KnockoutComputed<string | null>;
     /** If the state is unknown (asynchronous call) */
-    validating: ko.Computed<boolean>;
+    validating: KnockoutComputed<boolean>;
     /** Add a new validator factory */
     addValidator(validatorFactory: (value:ValidableObservable<T>) => Validator):ValidableObservable<T>;
 }
@@ -61,7 +61,8 @@ export function validableObservable<T>(): ValidableObservable<T> {
     var validating = ko.computed(() => {
         var v = validators();
         for (var i = 0; i < v.length; i++) {
-            if (v[i].validating && v[i].validating()) {
+            const validating = v[i].validating;
+            if (validating && validating()) {
                 return true;
             }
         }
@@ -78,7 +79,7 @@ export function validableObservable<T>(): ValidableObservable<T> {
 }
 
 /** A validator factory that checks that the value has the format of an e-mail  */
-export function isEmail(value: ko.Observable<string>):Validator {
+export function isEmail(value: KnockoutObservable<string>):Validator {
     var re = /^\S+@\S+\.\S+$/;
     return {
         errorMessage: ko.computed(() => re.test(value()) ? null : errorMessages.email)
@@ -86,7 +87,7 @@ export function isEmail(value: ko.Observable<string>):Validator {
 }
 
 /** A validator factory that checks that the value is not null or empty */
-export function isRequired(value: ko.Observable<any>):Validator{
+export function isRequired(value: KnockoutObservable<any>):Validator{
     return {
         errorMessage: ko.computed(() => value() == null || value() === "" ? errorMessages.required : null)
     };
@@ -94,14 +95,14 @@ export function isRequired(value: ko.Observable<any>):Validator{
 
 /** Creates a validator factory that checks that a string has a minimum length */
 export function hasMinLength(minLength: number) {
-    return (value: ko.Observable<string>) => { return {
+    return (value: KnockoutObservable<string>) => { return {
         errorMessage: ko.computed(() => !value() || value().length < minLength ? format(errorMessages.minLength, minLength) : null)
     }};
 }
 
 /** Creates a validator factory that checks that a string has a maximum length */
 export function hasMaxLength(maxLength: number) {
-    return (value: ko.Observable<string>) => {
+    return (value: KnockoutObservable<string>) => {
         return {
             errorMessage: ko.computed(() => !value() || value().length > maxLength ? format(errorMessages.maxLength, maxLength) : null)
         }
@@ -110,7 +111,7 @@ export function hasMaxLength(maxLength: number) {
 
 /** Creates a validator factory that checks that a number has a value between two limits */
 export function isInRange(min: number, max:number) {
-    return (value: ko.Observable<number>) => {
+    return (value: KnockoutObservable<number>) => {
         return {
             errorMessage: ko.computed(() => !value() || value() < min ? format(errorMessages.minValue, min) : (value() > max ? format(errorMessages.maxValue, max) : null))
         }
@@ -118,7 +119,7 @@ export function isInRange(min: number, max:number) {
 }
 
 export function isAtLeast(min: number){
-    return (value: ko.Observable<number>) => {
+    return (value: KnockoutObservable<number>) => {
         return {
             errorMessage: ko.computed(() => !value() || value() < min ? format(errorMessages.minValue, min) : null)
         }
@@ -126,7 +127,7 @@ export function isAtLeast(min: number){
 }
 
 export function isAtMost(max: number){
-    return (value: ko.Observable<number>) => {
+    return (value: KnockoutObservable<number>) => {
         return {
             errorMessage: ko.computed(() => !value() || value() > max ? format(errorMessages.maxValue, max) : null)
         }
@@ -135,7 +136,7 @@ export function isAtMost(max: number){
 
 /** Creates a validator factory that calls a service to check if a value is valid */
 export function validateService(service: (parameters: { value: string }) => Promise<string>) {
-    return (value: ko.Observable<string>) => {
+    return (value: KnockoutObservable<string>) => {
         var errorMessage = ko.observable<string>(null);
         var validating = ko.observable(false);
         value.subscribe(newValue => {
@@ -156,8 +157,8 @@ export function validateService(service: (parameters: { value: string }) => Prom
 }
 
 /** Creates a validator factory that checks that the string is equal to another observable string */
-export function areSame(other: ko.Observable<string>) {
-    return (value: ko.Observable<string>) => {
+export function areSame(other: KnockoutObservable<string>) {
+    return (value: KnockoutObservable<string>) => {
         return {
             errorMessage: ko.computed(() => value() == other() ? null : errorMessages.areSame)
         };
@@ -169,7 +170,7 @@ function format(f:string, a:any){
 }
 
 /* Register a new Knockout binding handler that adds an error message of class "error" after an input */
-var validateHandler: ko.BindingHandler = {
+var validateHandler: KnockoutBindingHandler = {
     init: function (element: HTMLElement, valueAccessor: () => ValidableObservable<any>) {
         var label = document.createElement('label');
         label.style.display = 'none';
