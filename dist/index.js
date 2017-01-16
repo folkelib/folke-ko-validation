@@ -23,8 +23,8 @@ exports.errorMessages = {
     areSame: "The two fields must be identical"
 };
 /** Create a ValidableObservable */
-function validableObservable() {
-    var observable = ko.observable();
+function validableObservable(value) {
+    var observable = ko.observable(value);
     var validators = ko.observableArray();
     var errorMessage = ko.computed(function () {
         var v = validators();
@@ -36,7 +36,7 @@ function validableObservable() {
         }
         return null;
     });
-    var validating = ko.computed(function () {
+    var validating = ko.pureComputed(function () {
         var v = validators();
         for (var i = 0; i < v.length; i++) {
             var validating_1 = v[i].validating;
@@ -48,6 +48,7 @@ function validableObservable() {
     });
     observable.errorMessage = errorMessage;
     observable.validating = validating;
+    observable.valid = ko.pureComputed(function () { return !validating() && !errorMessage(); });
     observable.addValidator = function (validatorFactory) {
         validators.push(validatorFactory(observable));
         return observable;

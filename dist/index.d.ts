@@ -22,11 +22,13 @@ export interface ValidableObservable<T> extends KnockoutObservable<T> {
     errorMessage: KnockoutComputed<string | null>;
     /** If the state is unknown (asynchronous call) */
     validating: KnockoutComputed<boolean>;
+    /** If the value is valid and it is not currently validating the entry */
+    valid: KnockoutComputed<boolean>;
     /** Add a new validator factory */
     addValidator(validatorFactory: (value: ValidableObservable<T>) => Validator): ValidableObservable<T>;
 }
 /** Create a ValidableObservable */
-export declare function validableObservable<T>(): ValidableObservable<T>;
+export declare function validableObservable<T>(value?: T): ValidableObservable<T>;
 /** A validator factory that checks that the value has the format of an e-mail  */
 export declare function isEmail(value: KnockoutObservable<string>): Validator;
 /** A validator factory that checks that the value is not null or empty */

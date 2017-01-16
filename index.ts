@@ -39,13 +39,15 @@ export interface ValidableObservable<T> extends KnockoutObservable<T> {
     errorMessage: KnockoutComputed<string | null>;
     /** If the state is unknown (asynchronous call) */
     validating: KnockoutComputed<boolean>;
+    /** If the value is valid and it is not currently validating the entry */
+    valid: KnockoutComputed<boolean>;
     /** Add a new validator factory */
     addValidator(validatorFactory: (value:ValidableObservable<T>) => Validator):ValidableObservable<T>;
 }
 
 /** Create a ValidableObservable */
-export function validableObservable<T>(): ValidableObservable<T> {
-    var observable = <ValidableObservable<T>>ko.observable<T>();
+export function validableObservable<T>(value?:T): ValidableObservable<T> {
+    var observable = <ValidableObservable<T>>ko.observable<T>(value);
     var validators = ko.observableArray<Validator>();
     var errorMessage = ko.computed(() => {
         var v = validators();
@@ -58,7 +60,7 @@ export function validableObservable<T>(): ValidableObservable<T> {
         return null;
     });
 
-    var validating = ko.computed(() => {
+    var validating = ko.pureComputed(() => {
         var v = validators();
         for (var i = 0; i < v.length; i++) {
             const validating = v[i].validating;
@@ -71,6 +73,7 @@ export function validableObservable<T>(): ValidableObservable<T> {
 
     observable.errorMessage = errorMessage;
     observable.validating = validating;
+    observable.valid = ko.pureComputed(() => !validating() && !errorMessage());
     observable.addValidator = (validatorFactory: (value: ValidableObservable<T>) => Validator) => {
         validators.push(validatorFactory(observable));
         return observable;
