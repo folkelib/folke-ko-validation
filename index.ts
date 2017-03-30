@@ -178,6 +178,9 @@ var validateHandler: KnockoutBindingHandler = {
         var label = document.createElement('label');
         label.style.display = 'none';
         label.className = 'error';
+        if (!element.parentElement){
+            throw new Error("Should be attached in the DOM");
+        }
         element.parentElement.insertBefore(label, element.nextSibling);
         var observable = valueAccessor();
         if (!observable.errorMessage) return;

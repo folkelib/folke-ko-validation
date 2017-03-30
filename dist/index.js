@@ -12,6 +12,7 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
 OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.*/
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ko = require("knockout");
 exports.errorMessages = {
     email: "Wrong e-mail format",
@@ -153,6 +154,9 @@ var validateHandler = {
         var label = document.createElement('label');
         label.style.display = 'none';
         label.className = 'error';
+        if (!element.parentElement) {
+            throw new Error("Should be attached in the DOM");
+        }
         element.parentElement.insertBefore(label, element.nextSibling);
         var observable = valueAccessor();
         if (!observable.errorMessage)
