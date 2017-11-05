@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "tsc -p .",
+    "prepare": "tsc -p .",
     "watch": "tsc -w"
   },
   "keywords": [
@@ -15,10 +15,10 @@
   "author": "Sidoine De Wispelaere",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "~2.2"
+    "typescript": "^2.6.1"
   },
   "dependencies": {
-    "@types/knockout": "^3.4.38",
+    "@types/knockout": "^3.4.46",
     "knockout": "^3.4.0"
   },
   "repository": {

@@ -200,3 +200,11 @@ var validateHandler: KnockoutBindingHandler = {
 export function register(){
     ko.bindingHandlers['validate'] = validateHandler;
 }
+
+declare global {
+    namespace JSX {
+        interface InputElement {
+            validate?: ValidableObservable<any>;
+        }
+    }
+}

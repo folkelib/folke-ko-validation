@@ -63,3 +63,11 @@ export declare function areSame(other: KnockoutObservable<string>): (value: Knoc
     errorMessage: KnockoutComputed<string | null>;
 };
 export declare function register(): void;
+declare global  {
+    namespace JSX {
+        interface InputElement {
+            validate?: ValidableObservable<any>;
+        }
+    }
+}
+export {};
